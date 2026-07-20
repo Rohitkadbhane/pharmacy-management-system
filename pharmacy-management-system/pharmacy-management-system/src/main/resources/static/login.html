@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | Pharmacy Management System</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1>PharmaManage</h1>
+        <p class="sub">Pharmacy Management System</p>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <form id="loginForm">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" id="username" required autofocus>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-block">Login</button>
+        </form>
+
+        <div class="demo-creds">
+            Demo logins &mdash; Admin: <strong>admin / admin123</strong><br>
+            Staff: <strong>staff / staff123</strong>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorBox = document.getElementById('errorMsg');
+    errorBox.style.display = 'none';
+
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params
+        });
+        if (res.ok) {
+            window.location.href = '/index.html';
+        } else {
+            const data = await res.json().catch(() => ({}));
+            errorBox.textContent = data.error || 'Invalid username or password';
+            errorBox.style.display = 'block';
+        }
+    } catch (err) {
+        errorBox.textContent = 'Unable to reach server';
+        errorBox.style.display = 'block';
+    }
+});
+</script>
+</body>
+</html>

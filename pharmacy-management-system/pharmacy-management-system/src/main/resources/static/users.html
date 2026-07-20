@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Users | Pharmacy Management System</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+        <div class="page-header">
+            <h2>User Management</h2>
+            <button class="btn" id="addBtn">+ Add User</button>
+        </div>
+
+        <div class="card">
+            <table>
+                <thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+        <h3 id="modalTitle">Add User</h3>
+        <form id="userForm">
+            <input type="hidden" id="userId">
+            <div class="field"><label>Username</label><input type="text" id="username" required></div>
+            <div class="field"><label>Full Name</label><input type="text" id="fullName"></div>
+            <div class="field"><label>Password <span id="passHint" style="color:#6b7280;"></span></label><input type="password" id="password"></div>
+            <div class="field">
+                <label>Role</label>
+                <select id="role">
+                    <option value="STAFF">STAFF</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+            </div>
+            <div class="field">
+                <label><input type="checkbox" id="enabled" checked style="width:auto; margin-right:0.4rem;">Enabled</label>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button type="submit" class="btn">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/users.js"></script>
+</body>
+</html>

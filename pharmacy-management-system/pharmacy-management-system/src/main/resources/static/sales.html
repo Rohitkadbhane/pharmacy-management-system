@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sales / Billing | Pharmacy Management System</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+        <div class="page-header">
+            <h2>Sales / Billing</h2>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>New Sale</h3>
+                <div class="field">
+                    <label>Customer Name (optional)</label>
+                    <input type="text" id="customerName" placeholder="Walk-in customer">
+                </div>
+                <div class="field">
+                    <label>Search Medicine</label>
+                    <input type="search" id="medicineSearch" placeholder="Type medicine name...">
+                    <div id="searchResults" style="margin-top:0.5rem;"></div>
+                </div>
+
+                <h3 style="margin-top:1rem;">Cart</h3>
+                <div id="cartItems"><p class="empty-state">Cart is empty</p></div>
+                <div class="cart-total">
+                    <span>Total</span>
+                    <span id="cartTotal">₹0.00</span>
+                </div>
+                <button class="btn btn-block" style="margin-top:1rem;" id="checkoutBtn">Complete Sale</button>
+            </div>
+
+            <div class="card">
+                <h3>Recent Sales</h3>
+                <table>
+                    <thead><tr><th>#</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th></tr></thead>
+                    <tbody id="salesHistoryBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/sales.js"></script>
+</body>
+</html>

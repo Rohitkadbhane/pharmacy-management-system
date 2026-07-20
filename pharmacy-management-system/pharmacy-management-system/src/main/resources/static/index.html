@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard | Pharmacy Management System</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+        <div class="page-header">
+            <h2>Dashboard</h2>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>⚠ Low Stock Medicines</h3>
+                <table id="lowStockTable">
+                    <thead><tr><th>Name</th><th>Qty</th><th>Reorder Level</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3>⏰ Expiring Soon (30 days)</h3>
+                <table id="expiringTable">
+                    <thead><tr><th>Name</th><th>Batch</th><th>Expiry</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+(async () => {
+    const user = await requireAuth();
+    if (!user) return;
+    renderSidebar('dashboard', user);
+
+    try {
+        const stats = await apiFetch('/api/reports/dashboard');
+        document.getElementById('statsGrid').innerHTML = `
+            <div class="stat-card">
+                <div class="label">Total Medicines</div>
+                <div class="value">${stats.totalMedicines}</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="label">Low Stock</div>
+                <div class="value">${stats.lowStockCount}</div>
+            </div>
+            <div class="stat-card warn">
+                <div class="label">Expiring Soon</div>
+                <div class="value">${stats.expiringSoonCount}</div>
+            </div>
+            <div class="stat-card success">
+                <div class="label">Today's Sales</div>
+                <div class="value">${stats.todaySalesCount}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Today's Revenue</div>
+                <div class="value">${formatCurrency(stats.todayRevenue)}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Inventory Value</div>
+                <div class="value">${formatCurrency(stats.inventoryValue)}</div>
+            </div>
+        `;
+
+        const lowStock = await apiFetch('/api/medicines/low-stock');
+        const lowStockBody = document.querySelector('#lowStockTable tbody');
+        lowStockBody.innerHTML = lowStock.length
+            ? lowStock.map(m => `<tr><td>${escapeHtml(m.name)}</td><td>${m.quantity}</td><td>${m.reorderLevel}</td></tr>`).join('')
+            : '<tr><td colspan="3" class="empty-state">No low stock items</td></tr>';
+
+        const expiring = await apiFetch('/api/medicines/expiring?days=30');
+        const expiringBody = document.querySelector('#expiringTable tbody');
+        expiringBody.innerHTML = expiring.length
+            ? expiring.map(m => `<tr><td>${escapeHtml(m.name)}</td><td>${escapeHtml(m.batchNumber)}</td><td>${m.expiryDate}</td></tr>`).join('')
+            : '<tr><td colspan="3" class="empty-state">Nothing expiring soon</td></tr>';
+
+    } catch (err) {
+        alert(err.message);
+    }
+})();
+</script>
+</body>
+</html>

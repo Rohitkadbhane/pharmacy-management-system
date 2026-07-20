@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medicines | Pharmacy Management System</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+        <div class="page-header">
+            <h2>Medicine Inventory</h2>
+            <button class="btn" id="addBtn">+ Add Medicine</button>
+        </div>
+
+        <div class="toolbar">
+            <input type="search" id="searchInput" placeholder="Search medicine by name...">
+        </div>
+
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th><th>Category</th><th>Manufacturer</th><th>Batch</th>
+                        <th>Qty</th><th>Unit Price</th><th>Expiry</th><th>Status</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+        <h3 id="modalTitle">Add Medicine</h3>
+        <form id="medicineForm">
+            <input type="hidden" id="medId">
+            <div class="field"><label>Name</label><input type="text" id="name" required></div>
+            <div class="field"><label>Category</label><input type="text" id="category"></div>
+            <div class="field"><label>Manufacturer</label><input type="text" id="manufacturer"></div>
+            <div class="field"><label>Batch Number</label><input type="text" id="batchNumber"></div>
+            <div class="field"><label>Quantity</label><input type="number" id="quantity" min="0" required></div>
+            <div class="field"><label>Unit Price (₹)</label><input type="number" id="unitPrice" step="0.01" min="0" required></div>
+            <div class="field"><label>Reorder Level</label><input type="number" id="reorderLevel" min="0" value="10"></div>
+            <div class="field"><label>Expiry Date</label><input type="date" id="expiryDate"></div>
+            <div class="field"><label>Supplier</label><select id="supplierId"></select></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button type="submit" class="btn">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/medicines.js"></script>
+</body>
+</html>
